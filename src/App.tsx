@@ -8,13 +8,17 @@ function App() {
   const [year] = useState(currentYear);
 
   const handleNextQuarter = () => {
-    setCurrentQuarter(currentQuarter + 1);
+    if (currentQuarter < 4) {
+      setCurrentQuarter(currentQuarter + 1);
+    }
   };
 
   const handlePreviousQuarter = () => {
-    setCurrentQuarter(currentQuarter - 1);
+    if (currentQuarter > 1) {
+      setCurrentQuarter(currentQuarter - 1);
+    }
   };
-
+  
   return (
     <div className="App">
       <button onClick={handlePreviousQuarter}>Previous</button>
