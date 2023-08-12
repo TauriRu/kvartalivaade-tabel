@@ -87,66 +87,80 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
   };
 
   return (
-    <div className="calendar">
-      <div className="add-task">
-        <input
-          type="text"
-          placeholder="Task Name"
-          value={newTaskName}
-          onChange={(e) => setNewTaskName(e.target.value)}
-        />
-        <input
-          type="date"
-          value={newTaskStartDate}
-          onChange={(e) => setNewTaskStartDate(e.target.value)}
-        />
-        <input
-          type="date"
-          value={newTaskEndDate}
-          onChange={(e) => setNewTaskEndDate(e.target.value)}
-        />
-        <button onClick={handleAddTask}>Add Task</button>
+    <div className='calendarContainer'>
+      <div className="task-section">
+        <div className="task-header">Tasks</div>
+        {tasks.map((task, index) => (
+          <div key={index} className="task">
+            <div className="task-name">{task.name}</div>
+            <div className="task-dates">
+              {task.startDate.toLocaleDateString()} - {task.endDate.toLocaleDateString()}
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="calendar-body">
+      <div className="calendar">
+        <div className="add-task">
+          <input
+            type="text"
+            placeholder="Task Name"
+            value={newTaskName}
+            onChange={(e) => setNewTaskName(e.target.value)}
+          />
+          <input
+            type="date"
+            value={newTaskStartDate}
+            onChange={(e) => setNewTaskStartDate(e.target.value)}
+          />
+          <input
+            type="date"
+            value={newTaskEndDate}
+            onChange={(e) => setNewTaskEndDate(e.target.value)}
+          />
+          <button onClick={handleAddTask}>Add Task</button>
+        </div>
+        <div className="calendar-body">
 
-        <table>
-          <thead>
-            <tr className="month-row">
+          <table>
+            <thead>
+              <tr className="month-row">
 
-              {monthData.map((data, index) => (
-                <th key={index} className="month-cell" colSpan={4}>
-                  {data.month}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            <tr className="week-row">
-              {monthData.map((data) =>
-                data.weeks.map((week, index) => (
-                  <td key={index} className="week-cell">
-                    {week}
-                  </td>
-                ))
-              )}
-            </tr>
-            <tr className="task-row">
-              {monthData.map((data) =>
-                data.weeks.map((week, index) => (
-                  <td key={index} className="task-cell">
-                    {tasks.map((task) => {
-                      const startWeek = getISOWeek(task.startDate);
-                      const endWeek = getISOWeek(task.endDate);
-                      if (week >= startWeek && week <= endWeek) {
-                        return <div className="task">{task.name}</div>;
-                      }
-                    })}
-                  </td>
-                ))
-              )}
-            </tr>
-          </tbody>
-        </table>
+                {monthData.map((data, index) => (
+                  <th key={index} className="month-cell" colSpan={4}>
+                    {data.month}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="week-row">
+                {monthData.map((data) =>
+                  data.weeks.map((week, index) => (
+                    <td key={index} className="week-cell">
+                      {week}
+                    </td>
+                  ))
+                )}
+              </tr>
+              <tr className="task-row">
+                {monthData.map((data) =>
+                  data.weeks.map((week, index) => (
+                    <td key={index} className="task-cell">
+                      {tasks.map((task) => {
+                        const startWeek = getISOWeek(task.startDate);
+                        const endWeek = getISOWeek(task.endDate);
+                        if (week >= startWeek && week <= endWeek) {
+                          return <div className="task">{task.name}</div>;
+                        }
+                      })}
+                    </td>
+                  ))
+                )}
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
       </div>
     </div>
   );
