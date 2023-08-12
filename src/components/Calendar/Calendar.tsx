@@ -1,71 +1,68 @@
-import React, { useMemo } from 'react';
-import './Calendar.css';
+import React from 'react';
 
 interface CalendarProps {
   currentQuarter: number;
 }
 
+interface TableDataItem {
+  month: string;
+  week: number;
+}
+
 const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
-  // Funktsioon kuupäeva arvutamiseks vastavalt nädalale ja aastale
-  const getWeekStartDate = (week: number, year: number) => {
-    const januaryFirst = new Date(year, 0, 1);
-    const daysOffset = (week - 1) * 7;
-    const firstDay = new Date(januaryFirst.setDate(januaryFirst.getDate() + daysOffset));
-    return firstDay;
+  const getQuarterStartDate = (quarter: number): Date => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (quarter - 1) * 3 + 1;
+    return new Date(year, month - 1, 1);
   };
 
-  // Funktsioon nädala numbri arvutamiseks vastavalt kuupäevale
-  const getWeekNumber = (date: Date) => {
-    const startDate = new Date(date.getFullYear(), 0, 1);
-    const days = Math.floor((date.getTime() - startDate.getTime()) / (24 * 60 * 60 * 1000));
-    const weekNumber = Math.ceil((days + startDate.getDay() + 1) / 7);
+  const getISOWeek = (date: Date): number => {
+    const januaryFirst = new Date(date.getFullYear(), 0, 1);
+    const daysDiff = Math.floor((+date - +januaryFirst) / (24 * 60 * 60 * 1000));
+    const weekNumber = Math.ceil((daysDiff + januaryFirst.getDay() + 1) / 7);
     return weekNumber;
   };
 
-  // Kuva kuupäevade nimekirja kvartali piires
-  const quarterStartDate = new Date(new Date().getFullYear(), (currentQuarter - 1) * 3, 1);
-  const quarterEndDate = new Date(new Date().getFullYear(), currentQuarter * 3, 0);
-  const quarterDates: Date[] = [];
-  for (let date = quarterStartDate; date <= quarterEndDate; date.setDate(date.getDate() + 1)) {
-    quarterDates.push(new Date(date));
-  }
+  const startQuarterDate = getQuarterStartDate(currentQuarter);
 
-  // Kuva tabeli päised (kuu nimed ja nädala numbrid)
-  const tableHeaders = useMemo(() => {
-    const headers = [];
-    let currentMonth = quarterDates[0].getMonth();
-    let currentWeek = getWeekNumber(quarterDates[0]);
-    for (const date of quarterDates) {
-      if (date.getMonth() !== currentMonth) {
-        headers.push({ type: 'month', value: date.toLocaleDateString('en-US', { month: 'short' }) });
-        currentMonth = date.getMonth();
-      } else if (getWeekNumber(date) !== currentWeek) {
-        headers.push({ type: 'week', value: String(currentWeek) });
-        currentWeek = getWeekNumber(date);
-      } else {
-        headers.push({ type: 'day', value: '' });
+  const tableData: TableDataItem[] = [];
+  const currentDate = new Date(startQuarterDate);
+  let currentMonth = -1;
+
+  while (currentDate.getMonth() >= startQuarterDate.getMonth() && currentDate.getMonth() < startQuarterDate.getMonth() + 3) {
+    const week = getISOWeek(currentDate);
+    const monthName = currentDate.toLocaleString('default', { month: 'long' });
+
+    if (currentDate.getMonth() !== currentMonth) {
+      tableData.push({ month: monthName, week: week });
+      currentMonth = currentDate.getMonth();
+    } else {
+      if (week !== tableData[tableData.length - 1].week) {
+        tableData.push({ month: '', week: week });
       }
     }
-    return headers;
-  }, [quarterDates]);
+
+    currentDate.setDate(currentDate.getDate() + 7);
+  }
 
   return (
-    <div className="calendar">
-      <table>
-        <thead>
-          <tr>
-            <th>Kuu</th>
-            {tableHeaders.map((header, index) => (
-              <th key={index}>
-                {header.type === 'month' && header.value}
-                {header.type === 'week' && `Nädal ${header.value}`}
-              </th>
-            ))}
+    <table>
+      <thead>
+        <tr>
+          <th>Kuu</th>
+          <th>Nädal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {tableData.map((data, index) => (
+          <tr key={index}>
+            <td>{data.month}</td>
+            <td>{data.week}</td>
           </tr>
-        </thead>
-        {/* Tööülesannete tabeli keha */}
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 };
 

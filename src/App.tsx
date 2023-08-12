@@ -4,6 +4,8 @@ import './App.css';
 
 function App() {
   const [currentQuarter, setCurrentQuarter] = useState(1);
+  const currentYear = new Date().getFullYear();
+  const [year] = useState(currentYear);
 
   const handleNextQuarter = () => {
     setCurrentQuarter(currentQuarter + 1);
@@ -15,9 +17,9 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Ülesannete Kvartalivaade</h1>
-      <button onClick={handlePreviousQuarter}>Eelmine Kvartal</button>
-      <button onClick={handleNextQuarter}>Järgmine Kvartal</button>
+      <button onClick={handlePreviousQuarter}>Previous</button>
+      <h1>Quartal {currentQuarter} {year}</h1>
+      <button onClick={handleNextQuarter}>Next</button>
       <Calendar currentQuarter={currentQuarter} />
     </div>
   );
