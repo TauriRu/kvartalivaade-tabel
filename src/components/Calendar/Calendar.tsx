@@ -1,4 +1,5 @@
 import React from 'react';
+import './Calendar.css';
 
 interface CalendarProps {
   currentQuarter: number;
@@ -6,7 +7,7 @@ interface CalendarProps {
 
 interface TableDataItem {
   month: string;
-  week: number;
+  weeks: number[];
 }
 
 const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
@@ -26,43 +27,53 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
 
   const startQuarterDate = getQuarterStartDate(currentQuarter);
 
-  const tableData: TableDataItem[] = [];
-  const currentDate = new Date(startQuarterDate);
-  let currentMonth = -1;
+  const monthData: TableDataItem[] = [];
+  let currentMonth: string | null = null;
 
-  while (currentDate.getMonth() >= startQuarterDate.getMonth() && currentDate.getMonth() < startQuarterDate.getMonth() + 3) {
-    const week = getISOWeek(currentDate);
+  for (let i = 0; i < 3; i++) { // Loop through 3 months in the quarter
+    const currentDate = new Date(startQuarterDate);
+    currentDate.setMonth(currentDate.getMonth() + i);
+
     const monthName = currentDate.toLocaleString('default', { month: 'long' });
 
-    if (currentDate.getMonth() !== currentMonth) {
-      tableData.push({ month: monthName, week: week });
-      currentMonth = currentDate.getMonth();
-    } else {
-      if (week !== tableData[tableData.length - 1].week) {
-        tableData.push({ month: '', week: week });
-      }
+    if (currentMonth !== monthName) {
+      monthData.push({ month: monthName, weeks: [] });
+      currentMonth = monthName;
     }
 
-    currentDate.setDate(currentDate.getDate() + 7);
+    const startWeek = getISOWeek(currentDate);
+    for (let j = startWeek; j < startWeek + 4; j++) {
+      monthData[monthData.length - 1].weeks.push(j);
+    }
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Kuu</th>
-          <th>Nädal</th>
-        </tr>
-      </thead>
-      <tbody>
-        {tableData.map((data, index) => (
-          <tr key={index}>
-            <td>{data.month}</td>
-            <td>{data.week}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div className="calendar">
+      <div className="calendar-body">
+        <table>
+          <thead>
+            <tr className="month-row">
+              {monthData.map((data, index) => (
+                <th key={index} className="month-cell" colSpan={4}>
+                  {data.month}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr className="week-row">
+              {monthData.map((data) =>
+                data.weeks.map((week, index) => (
+                  <td key={index} className="week-cell">
+                    {week}
+                  </td>
+                ))
+              )}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 };
 
