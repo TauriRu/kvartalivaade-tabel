@@ -18,13 +18,17 @@ function App() {
       setCurrentQuarter(currentQuarter - 1);
     }
   };
-  
+
   return (
     <div className="App">
-      <button onClick={handlePreviousQuarter}>Previous</button>
-      <h1>Quartal {currentQuarter} {year}</h1>
-      <button onClick={handleNextQuarter}>Next</button>
-      <Calendar currentQuarter={currentQuarter} />
+      <div className='container'>
+        <div className='quarterButtons'>
+          <button className="button" onClick={handlePreviousQuarter}>Previous</button>
+          <h2>Quartal {currentQuarter}, {year}</h2>
+          <button className="button" onClick={handleNextQuarter}>Next</button>
+        </div>
+        <Calendar currentQuarter={currentQuarter} />
+      </div>
     </div>
   );
 }
