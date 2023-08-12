@@ -117,7 +117,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
             value={newTaskEndDate}
             onChange={(e) => setNewTaskEndDate(e.target.value)}
           />
-          <button onClick={handleAddTask}>Add Task</button>
+          <button className="button" onClick={handleAddTask}>Add Task</button>
         </div>
         <div className="calendar-body">
 

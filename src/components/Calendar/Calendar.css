@@ -1,4 +1,9 @@
 /* Calendar.css */
+.calendarContainer {
+  display: flex;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
 
 .calendar {
   display: flex;
@@ -11,6 +16,8 @@
   display: flex;
   border-top: 1px solid #ddd;
   padding: 10px;
+  overflow-x: auto;
+  background-color: #f7f7f7;
 }
 
 table {
@@ -29,41 +36,101 @@ table {
   text-align: center;
   padding: 10px;
   border: 1px solid #ddd;
+  white-space: nowrap;
 }
 
 .month-cell {
   font-size: 1.2em;
   font-weight: bold;
   background-color: #f2f2f2;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
-/* Alternating row background color */
+.week-cell {
+  background-color: #fff;
+}
+
 .week-row:nth-child(even) .week-cell {
   background-color: #f2f2f2;
 }
+
 .task-section {
+  flex: 1;
   border: 1px solid #ccc;
   padding: 10px;
   margin-left: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
 }
 
 .task-header {
   font-weight: bold;
   font-size: 18px;
   padding: 10px;
+  background-color: #f2f2f2;
+  border-bottom: 1px solid #ddd;
+}
+
+.task-list {
+  margin-top: 10px;
 }
 
 .task {
-  background-color: #f2f2f2;
+  background-color: #f7f7f7;
   border: 1px solid #ddd;
-  padding: 5px;
-  margin-bottom: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.task:hover {
+  background-color: #e0e0e0;
 }
 
 .task-name {
   font-weight: bold;
+  margin-bottom: 5px;
 }
 
 .task-dates {
   color: #666;
+}
+
+.add-task {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  justify-content: center;
+}
+
+.add-task input[type="text"],
+.add-task input[type="date"] {
+  padding: 5px;
+  margin-right: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.add-task input[type="text"]:focus,
+.add-task input[type="date"]:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.add-task button {
+  padding: 5px 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.add-task button:hover {
+  background-color: #0056b3;
 }
