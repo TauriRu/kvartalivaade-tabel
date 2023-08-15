@@ -53,6 +53,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
     }
   }
 
+  // New task creation
   const [newTaskName, setNewTaskName] = useState('');
   const [newTaskStartDate, setNewTaskStartDate] = useState('');
   const [newTaskEndDate, setNewTaskEndDate] = useState('');
@@ -67,7 +68,6 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
       startDate: new Date(2023, 7, 25),
       endDate: new Date(2023, 7, 30),
     },
-    // Add more tasks here
   ]);
 
   const handleAddTask = () => {
@@ -155,7 +155,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
                         if (week >= startWeek && week <= endWeek) {
                           return (
                             <div className="task-container" key={task.name}>
-                              <div className="task">{task.name}</div>
+                              <div className="task-name">{task.name.length > 15 ? task.name.substring(0, 15) + '...' : task.name}</div>
                               <div className="active">
                                 <div className="task-name">{task.name}</div>
                                 <div className="task-dates">
@@ -165,12 +165,12 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
                             </div>
                           );
                         }
+                        return null;
                       })}
                     </td>
                   ))
                 )}
               </tr>
-
             </tbody>
           </table>
 
