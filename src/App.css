@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 100vh;
 }
 .container {
   display: flex;
@@ -58,4 +59,14 @@
 .button:active {
   box-shadow: none;
   transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .button {
+   padding: 10px;
+   margin-bottom: 10px;
+  }
+  .container{
+    display: block;
+  }
 }

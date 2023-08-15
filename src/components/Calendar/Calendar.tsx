@@ -59,14 +59,19 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
   const [newTaskEndDate, setNewTaskEndDate] = useState('');
   const [tasks, setTasks] = useState<Task[]>([
     {
-      name: 'Example 1',
-      startDate: new Date(2023, 7, 15),
-      endDate: new Date(2023, 7, 20),
+      name: ' task 1',
+      startDate: new Date(2023, 1, 23),
+      endDate: new Date(2023, 1, 27),
     },
     {
-      name: 'Example 2',
-      startDate: new Date(2023, 7, 25),
-      endDate: new Date(2023, 7, 30),
+      name: 'task 2',
+      startDate: new Date(2023, 2, 21),
+      endDate: new Date(2023, 3, 3),
+    },
+    {
+      name: 'task 3',
+      startDate: new Date(2023, 1, 30),
+      endDate: new Date(2023, 3, 20),
     },
   ]);
 

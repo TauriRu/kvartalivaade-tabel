@@ -1,14 +1,31 @@
 /* Calendar.css */
-.calendarContainer {
-  display: grid;
-  width: 100%;
-  font-family: Arial, sans-serif;
-  grid-template-columns: auto 1fr;
+
+/* Global Styles */
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #f2f2f2;
+  --border-color: #ddd;
+  --text-color: #666;
 }
 
-.container{
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Calendar Container */
+.calendarContainer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  width: 100%;
+}
+
+.container {
   height: 100vh;
 }
+
+/* Calendar Section */
 .calendar {
   display: flex;
   flex-direction: column;
@@ -16,16 +33,17 @@
   padding: 10px 0;
 }
 
+/* Calendar Body */
 .calendar-body {
   display: flex;
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--border-color);
   padding: 10px;
   overflow-x: auto;
-  background-color: #f7f7f7;
-  height: 100%;
+  background-color: var(--secondary-color);
   min-height: 250px;
 }
 
+/* Table Styles */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -41,14 +59,14 @@ table {
   display: table-cell;
   text-align: center;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   white-space: nowrap;
 }
 
 .month-cell {
   font-size: 1.2em;
   font-weight: bold;
-  background-color: #f2f2f2;
+  background-color: var(--secondary-color);
   position: sticky;
   top: 0;
   z-index: 2;
@@ -61,12 +79,13 @@ table {
 }
 
 .week-row:nth-child(even) .week-cell {
-  background-color: #f2f2f2;
+  background-color: var(--secondary-color);
 }
 
+/* Task Section */
 .task-section {
   flex: 1;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   padding: 10px;
   margin-left: 20px;
   background-color: #fff;
@@ -74,21 +93,24 @@ table {
   border-radius: 4px;
 }
 
+/* Task Header */
 .task-header {
   font-weight: bold;
   font-size: 18px;
   padding: 10px;
-  background-color: #f2f2f2;
-  border-bottom: 1px solid #ddd;
+  background-color: var(--secondary-color);
+  border-bottom: 1px solid var(--border-color);
 }
 
+/* Task List */
 .task-list {
   margin-top: 10px;
 }
 
+/* Individual Task */
 .task {
-  background-color: #f7f7f7;
-  border: 1px solid #ddd;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--border-color);
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 4px;
@@ -101,13 +123,13 @@ table {
 
 .task-name {
   font-weight: bold;
-  margin-bottom: 5px;
 }
 
 .task-dates {
-  color: #666;
+  color: var(--text-color);
 }
 
+/* Add Task Section */
 .add-task {
   display: flex;
   align-items: center;
@@ -119,19 +141,19 @@ table {
 .add-task input[type="date"] {
   padding: 5px;
   margin-right: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 4px;
 }
 
 .add-task input[type="text"]:focus,
 .add-task input[type="date"]:focus {
   outline: none;
-  border-color: #007bff;
+  border-color: var(--primary-color);
 }
 
 .add-task button {
   padding: 5px 10px;
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -142,23 +164,19 @@ table {
 .add-task button:hover {
   background-color: #0056b3;
 }
+
+/* Task Container */
 .task-container {
   display: flex;
   position: relative;
   flex-direction: column;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   padding: 5px;
   margin: 2px;
-  background-color: #f2f2f2;
+  background-color: var(--secondary-color);
 }
 
-.task {
-  background-color: #f2f2f2;
-  border: 1px solid #ddd;
-  padding: 5px;
-  margin-bottom: 5px;
-}
-
+/* Active Task */
 .active {
   display: none;
   position: absolute;
@@ -166,7 +184,7 @@ table {
   left: 0;
   z-index: 500;
   background-color: #fff;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   padding: 5px;
   white-space: nowrap;
 }
@@ -174,15 +192,84 @@ table {
 .task-container:hover .active {
   display: block;
 }
-.task-row {
-  display: table-row;
-  border: 1px solid #ddd;
+.task-container:hover {
+  background-color: #e0e0e0;
 }
 
+/* Task Row */
+.task-row {
+  display: table-row;
+  border: 1px solid var(--border-color);
+}
+
+/* Task Cell */
 .task-cell {
   display: table-cell;
   text-align: center;
   padding: 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   position: relative;
+}
+
+/* Mobile Styles */
+@media screen and (max-width: 768px) {
+ 
+  .quarterButtons h2{
+    font-size: 1em;
+  }
+
+    .calendarContainer {
+    grid-template-columns: 1fr; /* Change to a single column */
+  }
+
+  .month-cell {
+    font-size: 1em; /* Reduce font size for mobile */
+  }
+
+  .add-task {
+    flex-direction: column;
+    row-gap: 5px;
+  }
+
+  .task-section {
+    margin-left: 0; /* Remove left margin for mobile */
+    padding: 5px; /* Adjust padding for smaller screens */
+  }
+
+  /* Task Header */
+  .task-header {
+    font-size: 16px; /* Slightly reduce font size for mobile */
+    padding: 8px; /* Adjust padding for smaller screens */
+  }
+
+  /* Individual Task */
+  .task {
+    padding: 8px; /* Adjust padding for smaller screens */
+    margin-bottom: 8px; /* Adjust margin for smaller screens */
+  }
+
+  .calendar-body {
+    display: flex; /* Change to display in a row */
+    flex-wrap: nowrap; /* Prevent wrapping items to the next line */
+    overflow-x: auto;
+    overflow-y: hidden;
+    min-height: auto; /* Allow content to determine height */
+  }
+
+  /* Week Cells */
+  .week-cell {
+    width: 100%; /* Make week cells span the full width */
+    height: auto; /* Allow week cells to adjust height based on content */
+  }
+
+  /* Task Container */
+  .task-container {
+    margin: 5px 0; /* Add more vertical spacing between tasks */
+  }
+
+  /* Active Task */
+  .active {
+    top: auto; /* Adjust active task position */
+    bottom: -1px; /* Position below task container */
+  }
 }
