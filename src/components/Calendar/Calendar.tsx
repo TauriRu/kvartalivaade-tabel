@@ -58,12 +58,12 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
   const [newTaskEndDate, setNewTaskEndDate] = useState('');
   const [tasks, setTasks] = useState<Task[]>([
     {
-      name: 'Task 1',
+      name: 'Example 1',
       startDate: new Date(2023, 7, 15),
       endDate: new Date(2023, 7, 20),
     },
     {
-      name: 'Task 2',
+      name: 'Example 2',
       startDate: new Date(2023, 7, 25),
       endDate: new Date(2023, 7, 30),
     },
@@ -92,7 +92,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
         <div className="task-header">Tasks</div>
         {tasks.map((task, index) => (
           <div key={index} className="task">
-            <div className="task-name">{task.name}</div>
+            <div className="task-name">{task.name.length > 15 ? task.name.substring(0, 15) + '...' : task.name}</div>
             <div className="task-dates">
               {task.startDate.toLocaleDateString()} - {task.endDate.toLocaleDateString()}
             </div>
@@ -110,17 +110,20 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
           <input
             type="date"
             value={newTaskStartDate}
+            min="2023-01-01"
+            max="2023-12-31"
             onChange={(e) => setNewTaskStartDate(e.target.value)}
           />
           <input
             type="date"
             value={newTaskEndDate}
+            min="2023-01-01"
+            max="2023-12-31"
             onChange={(e) => setNewTaskEndDate(e.target.value)}
           />
           <button className="button" onClick={handleAddTask}>Add Task</button>
         </div>
         <div className="calendar-body">
-
           <table>
             <thead>
               <tr className="month-row">
@@ -150,13 +153,24 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
                         const startWeek = getISOWeek(task.startDate);
                         const endWeek = getISOWeek(task.endDate);
                         if (week >= startWeek && week <= endWeek) {
-                          return <div className="task">{task.name}</div>;
+                          return (
+                            <div className="task-container" key={task.name}>
+                              <div className="task">{task.name}</div>
+                              <div className="active">
+                                <div className="task-name">{task.name}</div>
+                                <div className="task-dates">
+                                  {task.startDate.toLocaleDateString()} - {task.endDate.toLocaleDateString()}
+                                </div>
+                              </div>
+                            </div>
+                          );
                         }
                       })}
                     </td>
                   ))
                 )}
               </tr>
+
             </tbody>
           </table>
 

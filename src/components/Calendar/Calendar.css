@@ -134,3 +134,28 @@ table {
 .add-task button:hover {
   background-color: #0056b3;
 }
+.task-container {
+  position: relative;
+}
+
+.task {
+  background-color: #f2f2f2;
+  border: 1px solid #ddd;
+  padding: 5px;
+  margin-bottom: 5px;
+}
+
+.active {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  padding: 5px;
+  white-space: nowrap;
+}
+
+.task-container:hover .active {
+  display: block;
+}
