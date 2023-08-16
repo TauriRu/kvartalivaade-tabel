@@ -20,8 +20,8 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
   const getQuarterStartDate = (quarter: number): Date => {
     const now = new Date();
     const year = now.getFullYear();
-    const month = (quarter - 1) * 3 + 1;
-    return new Date(year, month - 1, 1);
+    const month = (quarter - 1) * 3;
+    return new Date(year, month, 1);
   };
 
   const getISOWeek = (date: Date): number => {
@@ -34,11 +34,12 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
   const startQuarterDate = getQuarterStartDate(currentQuarter);
 
   const monthData: TableDataItem[] = [];
+  console.log(monthData)
   let currentMonth: string | null = null;
 
   for (let i = 0; i < 3; i++) {
     const currentDate = new Date(startQuarterDate);
-    currentDate.setMonth(currentDate.getMonth() + i);
+    currentDate.setMonth(startQuarterDate.getMonth() + i);
 
     const monthName = currentDate.toLocaleString('default', { month: 'long' });
 
@@ -52,6 +53,9 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
       monthData[monthData.length - 1].weeks.push(j);
     }
   }
+  const daysInMonth = (year: number, month: number): number => {
+    return new Date(year, month + 1, 0).getDate();
+  };
 
   // New task creation
   const [newTaskName, setNewTaskName] = useState('');
@@ -80,7 +84,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
       const newTask: Task = {
         name: newTaskName,
         startDate: new Date(newTaskStartDate),
-        endDate: new Date(newTaskEndDate),
+        endDate: new Date(newTaskEndDate + 'T23:59:59'), // Set the time to the end of the day
       };
 
       setTasks([...tasks, newTask]);
@@ -151,16 +155,35 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
                 )}
               </tr>
               <tr className="task-row">
-                {monthData.map((data) =>
-                  data.weeks.map((week, index) => (
-                    <td key={index} className="task-cell">
+                {monthData.map((data, dataIndex) =>
+                  data.weeks.map((week, weekIndex) => (
+                    <td key={weekIndex} className="task-cell">
                       {tasks.map((task) => {
                         const startWeek = getISOWeek(task.startDate);
                         const endWeek = getISOWeek(task.endDate);
-                        if (week >= startWeek && week <= endWeek) {
+                        const daysInTaskMonth = daysInMonth(
+                          task.startDate.getFullYear(),
+                          task.startDate.getMonth()
+                        );
+
+                        if (
+                          week >= startWeek &&
+                          week <= endWeek &&
+                          dataIndex === task.startDate.getMonth() % 3
+                        ) {
+                          const taskWeekStart = Math.max(week, startWeek);
+                          const taskWeekEnd = Math.min(week + 3, endWeek + 1);
+                          const weekSpan = taskWeekEnd - taskWeekStart;
+                          const cellWidth = (100 / daysInTaskMonth) * weekSpan;
+
                           return (
-                            <div className="task-container" key={task.name}>
-                              <div className="task-name">{task.name.length > 15 ? task.name.substring(0, 15) + '...' : task.name}</div>
+                            <div
+                              className="task-container"
+                              key={task.name}
+                            >
+                              <div className="task-name">
+                                {task.name.length > 15 ? task.name.substring(0, 15) + '...' : task.name}
+                              </div>
                               <div className="active">
                                 <div className="task-name">{task.name}</div>
                                 <div className="task-dates">
@@ -176,6 +199,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
                   ))
                 )}
               </tr>
+
             </tbody>
           </table>
 
