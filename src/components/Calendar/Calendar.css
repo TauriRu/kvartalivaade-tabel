@@ -1,12 +1,6 @@
 /* Calendar.css */
 
-/* Global Styles */
-:root {
-  --primary-color: #007bff;
-  --secondary-color: #f2f2f2;
-  --border-color: #ddd;
-  --text-color: #666;
-}
+
 
 /* Base Styles */
 body {
@@ -82,134 +76,8 @@ table {
   background-color: var(--secondary-color);
 }
 
-/* Task Section */
-.task-section {
-  flex: 1;
-  border: 1px solid var(--border-color);
-  padding: 10px;
-  margin-left: 20px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
-}
 
-/* Task Header */
-.task-header {
-  font-weight: bold;
-  font-size: 18px;
-  padding: 10px;
-  background-color: var(--secondary-color);
-  border-bottom: 1px solid var(--border-color);
-}
 
-/* Task List */
-.task-list {
-  margin-top: 10px;
-}
-
-/* Individual Task */
-.task {
-  background-color: var(--secondary-color);
-  border: 1px solid var(--border-color);
-  padding: 10px;
-  margin-bottom: 10px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.task:hover {
-  background-color: #e0e0e0;
-}
-
-.task-name {
-  font-weight: bold;
-}
-
-.task-dates {
-  color: var(--text-color);
-}
-
-/* Add Task Section */
-.add-task {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-  justify-content: center;
-}
-
-.add-task input[type="text"],
-.add-task input[type="date"] {
-  padding: 5px;
-  margin-right: 10px;
-  border: 1px solid var(--border-color);
-  border-radius: 4px;
-}
-
-.add-task input[type="text"]:focus,
-.add-task input[type="date"]:focus {
-  outline: none;
-  border-color: var(--primary-color);
-}
-
-.add-task button {
-  padding: 5px 10px;
-  background-color: var(--primary-color);
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.add-task button:hover {
-  background-color: #0056b3;
-}
-
-/* Task Container */
-.task-container {
-  display: flex;
-  position: relative;
-  flex-direction: column;
-  border: 1px solid var(--border-color);
-  padding: 5px;
-  margin: 2px;
-  background-color: var(--secondary-color);
-}
-
-/* Active Task */
-.active {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  z-index: 500;
-  background-color: #fff;
-  border: 1px solid var(--border-color);
-  padding: 5px;
-  white-space: nowrap;
-}
-
-.task-container:hover .active {
-  display: block;
-}
-.task-container:hover {
-  background-color: #e0e0e0;
-}
-
-/* Task Row */
-.task-row {
-  display: table-row;
-  border: 1px solid var(--border-color);
-}
-
-/* Task Cell */
-.task-cell {
-  display: table-cell;
-  text-align: center;
-  padding: 10px;
-  border: 1px solid var(--border-color);
-  position: relative;
-}
 
 /* Mobile Styles */
 @media screen and (max-width: 768px) {
@@ -226,10 +94,6 @@ table {
     font-size: 1em; /* Reduce font size for mobile */
   }
 
-  .add-task {
-    flex-direction: column;
-    row-gap: 5px;
-  }
 
   .task-section {
     margin-left: 0; /* Remove left margin for mobile */

@@ -1,0 +1,97 @@
+/* Task Section */
+.task-section {
+    flex: 1;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-left: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+  }
+  
+  /* Task Header */
+  .task-header {
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px;
+    background-color: var(--secondary-color);
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  /* Task List */
+  .task-list {
+    margin-top: 10px;
+  }
+  
+  /* Individual Task */
+  .task {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+  
+  .task:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .task-name {
+    font-weight: bold;
+  }
+  
+  .task-dates {
+    color: var(--text-color);
+  }
+  
+  
+
+  /* Task Container */
+.task-container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    padding: 5px;
+    margin: 2px;
+    color: var(--text-color-light);
+    background-color: var(--active-color);
+  }
+  
+  /* Active Task */
+  .active {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: -136px;
+    z-index: 500;
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    padding: 5px;
+    white-space: nowrap;
+  }
+  
+  .task-container:hover .active {
+    display: block;
+  }
+  .task-container:hover {
+    background-color: #e0e0e0;
+    color: var(--active-color);
+  }
+  
+  /* Task Row */
+  .task-row {
+    display: table-row;
+    border: 1px solid var(--border-color);
+  }
+  
+  /* Task Cell */
+  .task-cell {
+    display: table-cell;
+    text-align: center;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    position: relative;
+  }
+  

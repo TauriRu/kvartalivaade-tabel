@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './Calendar.css';
 import TaskCell from '../TaskCell/TaskCell';
+import AddTask from '../AddTask/AddTask';
 
 interface CalendarProps {
   currentQuarter: number;
@@ -54,11 +55,8 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
       monthData[monthData.length - 1].weeks.push(j);
     }
   }
- 
+
   // New task creation
-  const [newTaskName, setNewTaskName] = useState('');
-  const [newTaskStartDate, setNewTaskStartDate] = useState('');
-  const [newTaskEndDate, setNewTaskEndDate] = useState('');
   const [tasks, setTasks] = useState<Task[]>([
     {
       name: ' task 1',
@@ -77,20 +75,14 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
     },
   ]);
 
-  const handleAddTask = () => {
-    if (newTaskName && newTaskStartDate && newTaskEndDate) {
-      const newTask: Task = {
-        name: newTaskName,
-        startDate: new Date(newTaskStartDate),
-        endDate: new Date(newTaskEndDate + 'T23:59:59'), // Set the time to the end of the day
-      };
+  const handleAddTask = (name: string, startDate: string, endDate: string) => {
+    const newTask: Task = {
+      name,
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+    };
 
-      setTasks([...tasks, newTask]);
-
-      setNewTaskName('');
-      setNewTaskStartDate('');
-      setNewTaskEndDate('');
-    }
+    setTasks([...tasks, newTask]);
   };
 
   return (
@@ -107,29 +99,11 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
         ))}
       </div>
       <div className="calendar">
-        <div className="add-task">
-          <input
-            type="text"
-            placeholder="Task Name"
-            value={newTaskName}
-            onChange={(e) => setNewTaskName(e.target.value)}
-          />
-          <input
-            type="date"
-            value={newTaskStartDate}
-            min="2023-01-01"
-            max="2023-12-31"
-            onChange={(e) => setNewTaskStartDate(e.target.value)}
-          />
-          <input
-            type="date"
-            value={newTaskEndDate}
-            min="2023-01-01"
-            max="2023-12-31"
-            onChange={(e) => setNewTaskEndDate(e.target.value)}
-          />
-          <button className="button" onClick={handleAddTask}>Add Task</button>
-        </div>
+        <tr className="add-task">
+          <td colSpan={monthData.length * 4}>
+            <AddTask onAddTask={handleAddTask} />
+          </td>
+        </tr>
         <div className="calendar-body">
           <table>
             <thead>
@@ -154,12 +128,10 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
               <tr className="task-row">
                 {monthData.map((data, dataIndex) =>
                   data.weeks.map((week, weekIndex) => (
-                    <TaskCell key={weekIndex} tasks={tasks} week={week} monthIndex={dataIndex}  getISOWeek={getISOWeek} />
+                    <TaskCell key={weekIndex} tasks={tasks} week={week} monthIndex={dataIndex} getISOWeek={getISOWeek} />
                   ))
                 )}
               </tr>
-
-
             </tbody>
           </table>
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import './TaskCell.css';
 
 interface Task {
     name: string;
