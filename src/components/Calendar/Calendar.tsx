@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Calendar.css';
+import TaskCell from '../TaskCell/TaskCell';
 
 interface CalendarProps {
   currentQuarter: number;
@@ -53,10 +54,7 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
       monthData[monthData.length - 1].weeks.push(j);
     }
   }
-  const daysInMonth = (year: number, month: number): number => {
-    return new Date(year, month + 1, 0).getDate();
-  };
-
+ 
   // New task creation
   const [newTaskName, setNewTaskName] = useState('');
   const [newTaskStartDate, setNewTaskStartDate] = useState('');
@@ -136,7 +134,6 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
           <table>
             <thead>
               <tr className="month-row">
-
                 {monthData.map((data, index) => (
                   <th key={index} className="month-cell" colSpan={4}>
                     {data.month}
@@ -157,48 +154,11 @@ const Calendar: React.FC<CalendarProps> = ({ currentQuarter }) => {
               <tr className="task-row">
                 {monthData.map((data, dataIndex) =>
                   data.weeks.map((week, weekIndex) => (
-                    <td key={weekIndex} className="task-cell">
-                      {tasks.map((task) => {
-                        const startWeek = getISOWeek(task.startDate);
-                        const endWeek = getISOWeek(task.endDate);
-                        const daysInTaskMonth = daysInMonth(
-                          task.startDate.getFullYear(),
-                          task.startDate.getMonth()
-                        );
-
-                        if (
-                          week >= startWeek &&
-                          week <= endWeek &&
-                          dataIndex === task.startDate.getMonth() % 3
-                        ) {
-                          const taskWeekStart = Math.max(week, startWeek);
-                          const taskWeekEnd = Math.min(week + 3, endWeek + 1);
-                          const weekSpan = taskWeekEnd - taskWeekStart;
-                          const cellWidth = (100 / daysInTaskMonth) * weekSpan;
-
-                          return (
-                            <div
-                              className="task-container"
-                              key={task.name}
-                            >
-                              <div className="task-name">
-                                {task.name.length > 15 ? task.name.substring(0, 15) + '...' : task.name}
-                              </div>
-                              <div className="active">
-                                <div className="task-name">{task.name}</div>
-                                <div className="task-dates">
-                                  {task.startDate.toLocaleDateString()} - {task.endDate.toLocaleDateString()}
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        }
-                        return null;
-                      })}
-                    </td>
+                    <TaskCell key={weekIndex} tasks={tasks} week={week} monthIndex={dataIndex}  getISOWeek={getISOWeek} />
                   ))
                 )}
               </tr>
+
 
             </tbody>
           </table>
